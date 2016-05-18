@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Epics list</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="/resources/css/bootstrap.css"  th:href="@{/resources/css/bootstrap.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/datepicker.css" th:href="@{/resources/css/datepicker.css}" rel="stylesheet" media="screen"/>
+    <link href="/resources/css/custom.css" th:href="@{/resources/css/custom.css}" rel="stylesheet" media="screen"/>
+    <script type="text/javascript" src="/resources/js/jquery-2.2.1.min.js" th:src="@{/resources/js/jquery-2.2.1.min.js}"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap-datepicker.js" th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+</head>
+<body>
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Epics</div>
+        <div class="panel-body">
+            <!-- Button trigger add form modal -->
+            <button class="btn btn-success" data-toggle="modal" data-target="#addFormModal">Add new Epic</button>
+            <a href="/admin/releases" class="btn btn-success">Manage Releases</a>
+            <a href="/" class="btn btn-primary">Home</a>
+        </div>
+
+        <!-- Epics able -->
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Epic Name</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="epic : ${epics}">
+                <td th:text="${epic.title}"></td>
+                <td>
+                    <button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateFormModal" aria-hidden="true"
+                            th:attr="data-epic_id=${epic.id},
+                            data-epic_title=${epic.title},
+                            data-epic_code=${epic.gameCode},
+                            data-epic_release=${epic.releaseName},
+                            data-gp=${epic.gp}"
+                    ></button>&nbsp;&nbsp;&nbsp;
+                    <button class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#removeFormModal" aria-hidden="true" th:attr="data-epic_id=${epic.id}"></button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add form Modal -->
+    <div class="modal fade" id="addFormModal" tabindex="-1" role="dialog" aria-labelledby="newEpicFormTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="newEpicFormTitle">Add new Epic</h4>
+                </div>
+                <div class="modal-body">
+                    <form  id="newEpicForm" th:action="@{/admin/add}" th:object="${epic}" th:method="post">
+                        <div class="form-group">
+                            <label for="title">Game Title</label>
+                            <input type="text" class="form-control" id="title" th:field="*{title}"/>
+                            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title error message</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gameCode">Game code</label>
+                            <input type="text" class="form-control" id="gameCode" th:field="*{gameCode}"/>
+                            <p th:if="${#fields.hasErrors('gameCode')}" th:errors="*{gameCode}">Title error message</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="gp">Game Producer</label>
+                            <select class="form-control" id="gp" th:field="*{gp}">
+                                <option value="--">--</option>
+                                <option value="Andreas Bexelius">Andreas Bexelius</option>
+                                <option value="Geoff Scaplehorn">Geoff Scaplehorn</option>
+                                <option value="Alam Gill">Alam Gill</option>
+                                <option value="Vinay Denorian">Vinay Denorian</option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('gp')}" th:errors="*{gp}">Title error message</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="release">Release</label>
+                            <select class="form-control" id="release" th:field="*{releaseName}">
+                                <option th:each="release : ${releases}" th:text="${release.releaseNumber}" th:value="${release.releaseNumber}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('release')}" th:errors="*{releaseName}">Title error message</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-default" form="newEpicForm">Add Epic</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update form Modal -->
+    <div class="modal fade" id="updateFormModal" tabindex="-1" role="dialog" aria-labelledby="updateLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="updateLabel">Update Epic</h4>
+                </div>
+                <div class="modal-body">
+                    <form  id="updateEpicForm" th:action="@{/admin/update}" th:object="${epic}" th:method="put">
+                        <div class="form-group">
+                            <label for="up.title">Game Title</label>
+                            <input type="text" class="form-control" name="up.title" id="up.title" th:field="*{title}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="up.gameCode">Game code</label>
+                            <input type="text" class="form-control" name="up.gameCode" id="up.gameCode" th:field="*{gameCode}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="up.gp">Game Producer</label>
+                            <select class="form-control" id="up.gp" name="up.gp" th:field="*{gp}">
+                                <option value="--">--</option>
+                                <option value="Andreas Bexelius">Andreas Bexelius</option>
+                                <option value="Geoff Scaplehorn">Geoff Scaplehorn</option>
+                                <option value="Alam Gill">Alam Gill</option>
+                                <option value="Vinay Denorian">Vinay Denorian</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="releaseUp">Release</label>
+                            <select class="form-control" id="releaseUp" th:field="*{releaseName}">
+                                <option th:each="release : ${releases}" th:text="${release.releaseNumber}" th:value="${release.releaseNumber}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('release')}" th:errors="*{releaseName}">Title error message</p>
+                        </div>
+
+                        <!--<div class="form-group">-->
+                            <!--<label for="updatepicker">Release Date</label>-->
+                            <!--<input id='updatepicker' name='up.datepicker' type="text" th:field="*{releaseDate}" />-->
+                        <!--</div>-->
+                        <input type="hidden" name="id" value="800000"/>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-default" form="updateEpicForm">Update Epic</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Remove form modal-->
+    <div class="modal fade" id="removeFormModal" tabindex="-1" role="dialog" aria-labelledby="removeLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="removeLabel">Are you sure you want to remove this Epic?</h4>
+                </div>
+                <div class="modal-footer">
+                    <form th:action="@{/admin/delete}" th:method="delete" >
+                        <input type="hidden" name="epicId" value="800000"/>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-default">Remove Epic</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#datepicker').datepicker();
+            $('#updatepicker').datepicker();
+        });
+
+        $('#removeFormModal').on('show.bs.modal', function(e) {
+            //get data-id attribute of the clicked element
+            var epicId = $(e.relatedTarget).data('epic_id');
+            $(e.currentTarget).find('input[name="epicId"]').val(epicId);
+        });
+
+        $('#updateFormModal').on('show.bs.modal', function(e) {
+            //get data-id attribute of the clicked element
+            var epicId = $(e.relatedTarget).data('epic_id');
+            var epicTitle = $(e.relatedTarget).data('epic_title');
+            var code = $(e.relatedTarget).data('epic_code');
+            var gp = $(e.relatedTarget).data('gp');
+            var release = $(e.relatedTarget).data('epic_release');
+
+            $(e.currentTarget).find('input[name="id"]').val(epicId);
+            $(e.currentTarget).find('input[name="title"]').val(epicTitle);
+            $(e.currentTarget).find('input[name="gameCode"]').val(code);
+            $(e.currentTarget).find('input[name="gp"]').val(gp);
+            $(e.currentTarget).find("#releaseUp option[value='"+ release +"']").prop("selected", "selected");
+        });
+    </script>
+</body>
+</html>

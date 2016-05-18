@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Games ASH dashboard</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="/resources/css/bootstrap.css" th:href="@{/resources/css/bootstrap.css}" rel="stylesheet" media="screen"/>
+    <link href="/resources/css/custom.css" th:href="@{/resources/css/custom.css}" rel="stylesheet" media="screen"/>
+    <script type="text/javascript" src="/resources/js/jquery-2.2.1.min.js" th:src="@{/resources/js/jquery-2.2.1.min.js}"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+</head>
+<body>
+
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">
+        <div style="float: left; padding-top: 7px; font-weight: 700;">Games in development</div>
+        <div style="text-align: right;"><a href="/admin" class="btn btn-success">Edit <span
+            class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></div>
+    </div>
+
+    <!-- Epics table -->
+    <table class="table" id="epicTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Game Title</th>
+                <th>Open<br/>Defects</th>
+                <th>Game Code</th>
+                <th>Days<br/>Till Release</th>
+                <th>Release Date</th>
+                <th>Developer</th>
+                <th>GP</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="epic,iterStat : ${epics}" th:class="${iterStat.odd}? 'odd'">
+                <td th:text="${iterStat.count}">1</td>
+                <td th:text="${epic.title}">Hawaiian Treasure</td>
+                <td class="openDefect">0</td>
+                <td th:text="${epic.gameCode}">ashhwt</td>
+                <td class="daysLeft" th:text="${epic.release.daysTillRelease}">10</td>
+                <td th:text="${epic.release.releaseNumber}">02/06/2016</td>
+                <td th:text="${epic.developer}">Developer Name</td>
+                <td th:text="${epic.gp}">Geoff Scaplehorn</td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">
+        (function ($) {
+            $("#epicTable").find("tbody tr").each(function() {
+                var daysLeft = parseInt($(this).find(".daysLeft").html());
+                if (daysLeft > 10) {
+                    $(this).addClass("inDev");
+                } else {
+                    $(this).addClass("critical");
+                }
+            });
+        })(jQuery);
+    </script>
+</div>
+
+<!--<div th:include="fragments :: copy"></div>-->
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin - Releases list</title>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link href="/resources/css/bootstrap.css"  th:href="@{/resources/css/bootstrap.css}" rel="stylesheet" media="screen" />
+    <link href="/resources/css/datepicker.css" th:href="@{/resources/css/datepicker.css}" rel="stylesheet" media="screen"/>
+    <link href="/resources/css/custom.css" th:href="@{/resources/css/custom.css}" rel="stylesheet" media="screen"/>
+    <script type="text/javascript" src="/resources/js/jquery-2.2.1.min.js" th:src="@{/resources/js/jquery-2.2.1.min.js}"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap-datepicker.js" th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+</head>
+<body>
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading"><p>Releases</p></div>
+        <div class="panel-body">
+            <!-- Button trigger add form modal -->
+            <button class="btn btn-success" data-toggle="modal" data-target="#addFormModal">Add new Release</button>
+            <a href="/admin" class="btn btn-success">Epics</a>
+            <a href="/" class="btn btn-primary">Home</a>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Release</th>
+                <th>Date</th>
+                <th>Color</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="release : ${releases}">
+                <td th:text="${release.releaseNumber}"></td>
+                <td th:text="${release.releaseDate}"></td>
+                <td th:text="${release.releaseColor}"></td>
+                <td>
+                    <button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateFormModal" aria-hidden="true"
+                    th:attr="data-release_id=${release.ID},
+                    data-release_number=${release.releaseNumber},
+                    data-release_date=${release.releaseDate},
+                    data-release_color=${release.releaseColor}"
+                    ></button>&nbsp;&nbsp;&nbsp;
+                    <!--<button class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#removeFormModal" aria-hidden="true" th:attr="data-epic_id=${epic.id}"></button>-->
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Add form Modal -->
+    <div class="modal fade" id="addFormModal" tabindex="-1" role="dialog" aria-labelledby="newReleaseFormTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="newReleaseFormTitle">Add new Release</h4>
+                </div>
+                <div class="modal-body">
+                    <form  id="newEpicForm" th:action="@{/admin/releases/add}" th:object="${release}" th:method="post">
+                        <div class="form-group">
+                            <label for="title">Release Number</label>
+                            <input type="text" class="form-control" id="title" th:field="*{releaseNumber}"/>
+                            <p th:if="${#fields.hasErrors('releaseNumber')}" th:errors="*{releaseNumber}">Title error message</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="releaseDate">Date</label>
+                            <input id='releaseDate' name='releaseDate' type="text" th:field="*{releaseDate}" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-default" form="newEpicForm">Add Release</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update form Modal -->
+    <div class="modal fade" id="updateFormModal" tabindex="-1" role="dialog" aria-labelledby="updateLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="updateLabel">Update Epic</h4>
+                </div>
+                <div class="modal-body">
+                    <form  id="updateEpicForm" th:action="@{/admin/releases/update}" th:object="${release}" th:method="put">
+                        <div class="form-group">
+                            <label for="updateNumber">Release Number</label>
+                            <input type="text" class="form-control" name="updateNumber" id="updateNumber" th:field="*{releaseNumber}"/>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="datepickerUpdate">Release Date</label>
+                            <input id='datepickerUpdate' class="form-control" name='datepickerUpdate' type="text" th:field="*{releaseDate}" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="releaseColor">Release color</label>
+                            <input type="text" class="form-control" name="releaseColor" id="releaseColor" th:field="*{releaseColor}"/>
+                        </div>
+
+
+                        <!--<div class="form-group">-->
+                        <!--<label for="updatepicker">Release Date</label>-->
+                        <!--<input id='updatepicker' name='up.datepicker' type="text" th:field="*{releaseDate}" />-->
+                        <!--</div>-->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <input type="hidden" name="releaseId" value="800000"/>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-default" form="updateEpicForm">Update Epic</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#releaseDate').datepicker();
+            $('#datepickerUpdate').datepicker();
+        });
+
+        $('#updateFormModal').on('show.bs.modal', function(e) {
+            //get data-id attribute of the clicked element
+            var releaseId = $(e.relatedTarget).data('release_id');
+            var releaseNumber = $(e.relatedTarget).data('release_number');
+            var releaseDate = $(e.relatedTarget).data('release_date');
+            var releaseColor = $(e.relatedTarget).data('release_color');
+
+            $(e.currentTarget).find('input[name="releaseId"]').val(releaseId);
+            $(e.currentTarget).find('input[name="updateNumber"]').val(releaseNumber);
+            $(e.currentTarget).find('input[name="datepickerUpdate"]').val(releaseDate);
+            $(e.currentTarget).find('input[name="releaseColor"]').val(releaseColor);
+        });
+    </script>
+
+<div th:include="fragments :: copy"></div>
+</body>
+</html>

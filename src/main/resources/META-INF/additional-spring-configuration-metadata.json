@@ -1,0 +1,14 @@
+{
+    "properties": [
+        {
+            "name": "dash.epic.folder",
+            "type": "java.lang.String",
+            "description": "Folder where Games Epic Description is stored."
+        },
+        {
+            "name": "jira.user",
+            "type": "java.lang.String",
+            "description": "Auth to JIRA."
+        }
+    ]
+}

@@ -1,0 +1,153 @@
+{
+    "expand": "names,schema",
+    "startAt": 0,
+    "maxResults": 50,
+    "total": 1,
+    "issues": [
+        {
+            "expand": "operations,editmeta,changelog,transitions,renderedFields",
+            "id": "10000",
+            "self": "http://localhost:8080/rest/api/2/issue/10000",
+            "key": "NGM-1",
+            "fields": {
+                "issuetype": {
+                    "self": "http://localhost:8080/rest/api/2/issuetype/3",
+                    "id": "3",
+                    "description": "A task that needs to be done.",
+                    "iconUrl": "http://localhost:8080/images/icons/issuetypes/task.png",
+                    "name": "Task",
+                    "subtask": false
+                },
+                "components": [
+                    {
+                        "self": "http://localhost:8080/rest/api/2/component/10000",
+                        "id": "10000",
+                        "name": "Games (ASH)",
+                        "description": "Games ash issues"
+                    }
+                ],
+                "timespent": null,
+                "timeoriginalestimate": null,
+                "description": null,
+                "project": {
+                    "self": "http://localhost:8080/rest/api/2/project/10000",
+                    "id": "10000",
+                    "key": "NGM",
+                    "name": "Next Generation Mobile",
+                    "avatarUrls": {
+                        "48x48": "http://localhost:8080/secure/projectavatar?avatarId=10011",
+                        "24x24": "http://localhost:8080/secure/projectavatar?size=small&avatarId=10011",
+                        "16x16": "http://localhost:8080/secure/projectavatar?size=xsmall&avatarId=10011",
+                        "32x32": "http://localhost:8080/secure/projectavatar?size=medium&avatarId=10011"
+                    }
+                },
+                "fixVersions": [],
+                "aggregatetimespent": null,
+                "resolution": null,
+                "customfield_10005": null,
+                "customfield_10009": "0|hzzzzz:",
+                "aggregatetimeestimate": null,
+                "resolutiondate": null,
+                "workratio": -1,
+                "summary": "Create package for new game",
+                "lastViewed": "2016-03-13T16:12:20.453+0200",
+                "watches": {
+                    "self": "http://localhost:8080/rest/api/2/issue/NGM-1/watchers",
+                    "watchCount": 1,
+                    "isWatching": true
+                },
+                "creator": {
+                    "self": "http://localhost:8080/rest/api/2/user?username=admin",
+                    "name": "admin",
+                    "key": "admin",
+                    "emailAddress": "admin@jira.com",
+                    "avatarUrls": {
+                        "48x48": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=48",
+                        "24x24": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=24",
+                        "16x16": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=16",
+                        "32x32": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=32"
+                    },
+                    "displayName": "admin",
+                    "active": true,
+                    "timeZone": "Europe/Helsinki"
+                },
+                "subtasks": [],
+                "created": "2016-02-18T20:51:00.000+0200",
+                "reporter": {
+                    "self": "http://localhost:8080/rest/api/2/user?username=admin",
+                    "name": "admin",
+                    "key": "admin",
+                    "emailAddress": "admin@jira.com",
+                    "avatarUrls": {
+                        "48x48": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=48",
+                        "24x24": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=24",
+                        "16x16": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=16",
+                        "32x32": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=32"
+                    },
+                    "displayName": "admin",
+                    "active": true,
+                    "timeZone": "Europe/Helsinki"
+                },
+                "customfield_10000": null,
+                "aggregateprogress": {
+                    "progress": 0,
+                    "total": 0
+                },
+                "priority": {
+                    "self": "http://localhost:8080/rest/api/2/priority/3",
+                    "iconUrl": "http://localhost:8080/images/icons/priorities/medium.png",
+                    "name": "Medium",
+                    "id": "3"
+                },
+                "customfield_10001": null,
+                "labels": [],
+                "customfield_10004": null,
+                "environment": null,
+                "timeestimate": null,
+                "aggregatetimeoriginalestimate": null,
+                "versions": [],
+                "duedate": null,
+                "progress": {
+                    "progress": 0,
+                    "total": 0
+                },
+                "issuelinks": [],
+                "votes": {
+                    "self": "http://localhost:8080/rest/api/2/issue/NGM-1/votes",
+                    "votes": 0,
+                    "hasVoted": false
+                },
+                "assignee": {
+                    "self": "http://localhost:8080/rest/api/2/user?username=admin",
+                    "name": "admin",
+                    "key": "admin",
+                    "emailAddress": "admin@jira.com",
+                    "avatarUrls": {
+                        "48x48": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=48",
+                        "24x24": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=24",
+                        "16x16": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=16",
+                        "32x32": "http://www.gravatar.com/avatar/61ebc4f20790988ba655f96088105639?d=mm&s=32"
+                    },
+                    "displayName": "admin",
+                    "active": true,
+                    "timeZone": "Europe/Helsinki"
+                },
+                "updated": "2016-03-13T16:10:19.000+0200",
+                "status": {
+                    "self": "http://localhost:8080/rest/api/2/status/10000",
+                    "description": "",
+                    "iconUrl": "http://localhost:8080/images/icons/statuses/open.png",
+                    "name": "To Do",
+                    "id": "10000",
+                    "statusCategory": {
+                        "self": "http://localhost:8080/rest/api/2/statuscategory/2",
+                        "id": 2,
+                        "key": "new",
+                        "colorName": "blue-gray",
+                        "name": "To Do"
+                    }
+                }
+            }
+        }
+    ]
+}
