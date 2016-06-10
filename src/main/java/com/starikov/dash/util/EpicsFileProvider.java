@@ -108,7 +108,7 @@ public class EpicsFileProvider implements IFileProvider {
                 Release release = new Release();
                 release.setReleaseNumber(releaseJSON.get("number").asText());
                 release.setReleaseColor(releaseJSON.get("color").asText());
-                release.setReleaseDate(LocalDate.parse(releaseJSON.get("date").asText(), DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+                release.setReleaseDate(LocalDate.parse(releaseJSON.get("date").asText(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 releaseRepository.save(release);
             }
         } catch (IOException e) {

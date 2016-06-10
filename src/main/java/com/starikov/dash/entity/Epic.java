@@ -50,10 +50,8 @@ public class Epic {
     }
 
     public String getReleaseName() {
-
         return releaseName;
     }
-
     public void setReleaseName(String releaseName) {
         this.releaseName = releaseName;
     }
@@ -61,7 +59,6 @@ public class Epic {
     public Release getRelease() {
         return release;
     }
-
     public void setRelease(Release release) {
         this.release = release;
     }
@@ -69,7 +66,6 @@ public class Epic {
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -77,20 +73,13 @@ public class Epic {
     public String getGameCode() {
         return gameCode;
     }
-
     public void setGameCode(String gameCode) {
         this.gameCode = gameCode;
     }
 
-//    public int getDaysToRelease() {
-//        LocalDate today = LocalDate.now();
-//        return (int) ChronoUnit.DAYS.between(today, releaseDate);
-//    }
-
     public String getDeveloper() {
         return developer;
     }
-
     public void setDeveloper(String developer) {
         this.developer = developer;
     }
@@ -98,7 +87,6 @@ public class Epic {
     public String getGp() {
         return gp;
     }
-
     public void setGp(String gp) {
         this.gp = gp;
     }
@@ -106,7 +94,6 @@ public class Epic {
     public String getTitle() {
         return title;
     }
-
     public void setTitle(String title) {
         this.title = title;
     }

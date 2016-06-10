@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>team-dashboard</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Games ASH Dashboard</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

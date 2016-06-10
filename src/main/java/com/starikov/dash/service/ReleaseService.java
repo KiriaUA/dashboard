@@ -29,7 +29,14 @@ public class ReleaseService implements IReleaseService {
 
     @Override
     public void saveRelease(Release release) {
-        releaseRepository.save(release);
+        Release releaseDB = releaseRepository.findOne(release.getId());
+        if (releaseDB != null) {
+            releaseDB.setReleaseDate(release.getReleaseDate());
+            releaseDB.setReleaseColor(release.getReleaseColor());
+            releaseRepository.save(releaseDB);
+        } else {
+            releaseRepository.save(release);
+        }
         fileProvider.saveReleases();
     }
 }

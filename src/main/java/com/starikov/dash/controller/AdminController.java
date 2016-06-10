@@ -68,29 +68,4 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @RequestMapping(path = "releases", method = RequestMethod.GET)
-    public String releases(Model model) {
-        model.addAttribute("releases", releaseService.getAllReleases());
-        model.addAttribute("release", new Release());
-        return "admin/releases";
-    }
-
-    @RequestMapping(path = "releases/add", method = RequestMethod.POST)
-    public String addRelease(@Valid @ModelAttribute Release release, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "admin/releases";
-        }
-        releaseService.saveRelease(release);
-        return "redirect:/admin/releases";
-    }
-
-    @RequestMapping(path = "releases/update", method = RequestMethod.PUT)
-    public String updateEpic(@Valid Release release, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "admin/releases";
-        }
-        releaseService.saveRelease(release);
-        return "redirect:/admin/releases";
-    }
-
 }

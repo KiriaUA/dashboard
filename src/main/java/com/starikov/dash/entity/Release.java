@@ -1,6 +1,7 @@
 package com.starikov.dash.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -10,27 +11,27 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Release {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long ID;
+    private Long id;
 
     @JsonProperty("number")
     private String releaseNumber;
 
     @JsonProperty("date")
-    @JsonFormat(pattern = "MM/dd/yyyy")
-    @DateTimeFormat(pattern = "MM/dd/yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate releaseDate;
 
     @JsonProperty("color")
     private String releaseColor;
 
-    public Release() {
-    }
+    public Release() {}
 
     public String getReleaseColor() {
         return releaseColor;
@@ -40,12 +41,12 @@ public class Release {
         this.releaseColor = releaseColor;
     }
 
-    public Long getID() {
-        return ID;
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
+    public void setId(Long Id) {
+        this.id = Id;
     }
 
     public String getReleaseNumber() {
@@ -58,6 +59,10 @@ public class Release {
 
     public LocalDate getReleaseDate() {
         return releaseDate;
+    }
+
+    public String getReleaseDateString() {
+        return releaseDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public void setReleaseDate(LocalDate releaseDate) {

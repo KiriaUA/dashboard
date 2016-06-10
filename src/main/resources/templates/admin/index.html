@@ -6,11 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="/resources/css/bootstrap.css"  th:href="@{/resources/css/bootstrap.css}" rel="stylesheet" media="screen" />
-    <link href="/resources/css/datepicker.css" th:href="@{/resources/css/datepicker.css}" rel="stylesheet" media="screen"/>
     <link href="/resources/css/custom.css" th:href="@{/resources/css/custom.css}" rel="stylesheet" media="screen"/>
     <script type="text/javascript" src="/resources/js/jquery-2.2.1.min.js" th:src="@{/resources/js/jquery-2.2.1.min.js}"></script>
     <script type="text/javascript" src="/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
-    <script type="text/javascript" src="/resources/js/bootstrap-datepicker.js" th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
 </head>
 <body>
     <div class="panel panel-default">
@@ -122,7 +120,7 @@
 
                         <div class="form-group">
                             <label for="up.gp">Game Producer</label>
-                            <select class="form-control" id="up.gp" name="up.gp" th:field="*{gp}">
+                            <select class="form-control" id="updGP" name="up.gp" th:field="*{gp}">
                                 <option value="--">--</option>
                                 <option value="Andreas Bexelius">Andreas Bexelius</option>
                                 <option value="Geoff Scaplehorn">Geoff Scaplehorn</option>
@@ -139,10 +137,6 @@
                             <p th:if="${#fields.hasErrors('release')}" th:errors="*{releaseName}">Title error message</p>
                         </div>
 
-                        <!--<div class="form-group">-->
-                            <!--<label for="updatepicker">Release Date</label>-->
-                            <!--<input id='updatepicker' name='up.datepicker' type="text" th:field="*{releaseDate}" />-->
-                        <!--</div>-->
                         <input type="hidden" name="id" value="800000"/>
                     </form>
                 </div>
@@ -174,11 +168,6 @@
     </div>
 
     <script type="text/javascript">
-        $(function () {
-            $('#datepicker').datepicker();
-            $('#updatepicker').datepicker();
-        });
-
         $('#removeFormModal').on('show.bs.modal', function(e) {
             //get data-id attribute of the clicked element
             var epicId = $(e.relatedTarget).data('epic_id');
@@ -196,7 +185,7 @@
             $(e.currentTarget).find('input[name="id"]').val(epicId);
             $(e.currentTarget).find('input[name="title"]').val(epicTitle);
             $(e.currentTarget).find('input[name="gameCode"]').val(code);
-            $(e.currentTarget).find('input[name="gp"]').val(gp);
+            $(e.currentTarget).find("#updGP option[value='"+ gp +"']").prop("selected", "selected");
             $(e.currentTarget).find("#releaseUp option[value='"+ release +"']").prop("selected", "selected");
         });
     </script>

@@ -7,10 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <link href="/resources/css/bootstrap.css"  th:href="@{/resources/css/bootstrap.css}" rel="stylesheet" media="screen" />
     <link href="/resources/css/datepicker.css" th:href="@{/resources/css/datepicker.css}" rel="stylesheet" media="screen"/>
+    <link href="/resources/css/bootstrap-colorpicker.css" th:href="@{/resources/css/bootstrap-colorpicker.css}" rel="stylesheet" media="screen"/>
     <link href="/resources/css/custom.css" th:href="@{/resources/css/custom.css}" rel="stylesheet" media="screen"/>
     <script type="text/javascript" src="/resources/js/jquery-2.2.1.min.js" th:src="@{/resources/js/jquery-2.2.1.min.js}"></script>
     <script type="text/javascript" src="/resources/js/bootstrap.js" th:src="@{/resources/js/bootstrap.js}"></script>
     <script type="text/javascript" src="/resources/js/bootstrap-datepicker.js" th:src="@{/resources/js/bootstrap-datepicker.js}"></script>
+    <script type="text/javascript" src="/resources/js/bootstrap-colorpicker.js" th:src="@{/resources/js/bootstrap-colorpicker.js}"></script>
 </head>
 <body>
 
@@ -34,16 +36,15 @@
             <tbody>
             <tr th:each="release : ${releases}">
                 <td th:text="${release.releaseNumber}"></td>
-                <td th:text="${release.releaseDate}"></td>
+                <td th:text="${release.releaseDateString}"></td>
                 <td th:text="${release.releaseColor}"></td>
                 <td>
                     <button class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#updateFormModal" aria-hidden="true"
-                    th:attr="data-release_id=${release.ID},
+                    th:attr="data-release_id=${release.id},
                     data-release_number=${release.releaseNumber},
                     data-release_date=${release.releaseDate},
                     data-release_color=${release.releaseColor}"
-                    ></button>&nbsp;&nbsp;&nbsp;
-                    <!--<button class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#removeFormModal" aria-hidden="true" th:attr="data-epic_id=${epic.id}"></button>-->
+                    ></button>
                 </td>
             </tr>
             </tbody>
@@ -68,7 +69,12 @@
 
                         <div class="form-group">
                             <label for="releaseDate">Date</label>
-                            <input id='releaseDate' name='releaseDate' type="text" th:field="*{releaseDate}" />
+                            <input id='releaseDate' class="form-control" name='releaseDate' type="text" th:field="*{releaseDate}" />
+                        </div>
+
+                        <div class="form-group colorpicker-component">
+                            <label for="releaseColor">Release color</label>
+                            <input type="text" class="form-control" name="releaseColor" id="releaseColorNew" th:field="*{releaseColor}"/>
                         </div>
                     </form>
                 </div>
@@ -86,45 +92,40 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="updateLabel">Update Epic</h4>
+                    <h4 class="modal-title" id="updateLabel">Update Release</h4>
                 </div>
                 <div class="modal-body">
                     <form  id="updateEpicForm" th:action="@{/admin/releases/update}" th:object="${release}" th:method="put">
                         <div class="form-group">
-                            <label for="updateNumber">Release Number</label>
-                            <input type="text" class="form-control" name="updateNumber" id="updateNumber" th:field="*{releaseNumber}"/>
+                            <label for="releaseColor">Release color</label>
+                            <input type="text" class="form-control" name="releaseColor" id="releaseColor" th:field="*{releaseColor}"/>
                         </div>
 
                         <div class="form-group">
                             <label for="datepickerUpdate">Release Date</label>
                             <input id='datepickerUpdate' class="form-control" name='datepickerUpdate' type="text" th:field="*{releaseDate}" />
                         </div>
-
-                        <div class="form-group">
-                            <label for="releaseColor">Release color</label>
-                            <input type="text" class="form-control" name="releaseColor" id="releaseColor" th:field="*{releaseColor}"/>
-                        </div>
-
-
-                        <!--<div class="form-group">-->
-                        <!--<label for="updatepicker">Release Date</label>-->
-                        <!--<input id='updatepicker' name='up.datepicker' type="text" th:field="*{releaseDate}" />-->
-                        <!--</div>-->
+                        <input type="hidden" name="id" value="800000"/>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <input type="hidden" name="releaseId" value="800000"/>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-default" form="updateEpicForm">Update Epic</button>
+                    <button type="submit" class="btn btn-default" form="updateEpicForm">Update Release</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script type="text/javascript">
-        $(function () {
-            $('#releaseDate').datepicker();
-            $('#datepickerUpdate').datepicker();
+        $('#releaseDate').datepicker();
+        $('#datepickerUpdate').datepicker();
+        $('#releaseColorNew').colorpicker({
+            format: 'hex',
+            color: '#ffffff'
+        });
+        $('#releaseColor').colorpicker({
+            format: 'hex',
+            color: '#ffffff'
         });
 
         $('#updateFormModal').on('show.bs.modal', function(e) {
@@ -134,10 +135,13 @@
             var releaseDate = $(e.relatedTarget).data('release_date');
             var releaseColor = $(e.relatedTarget).data('release_color');
 
-            $(e.currentTarget).find('input[name="releaseId"]').val(releaseId);
-            $(e.currentTarget).find('input[name="updateNumber"]').val(releaseNumber);
-            $(e.currentTarget).find('input[name="datepickerUpdate"]').val(releaseDate);
-            $(e.currentTarget).find('input[name="releaseColor"]').val(releaseColor);
+
+            if (releaseId){
+                $(e.currentTarget).find('input[name="id"]').val(releaseId);
+                $(e.currentTarget).find('input[name="datepickerUpdate"]').val(releaseDate);
+                $(e.currentTarget).find('input[name="releaseColor"]').val(releaseColor);
+            }
+
         });
     </script>
 
