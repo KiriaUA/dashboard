@@ -1,13 +1,11 @@
 package com.starikov.dash.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 import java.time.Period;
@@ -17,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 public class Release {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     private Long id;
 
     @JsonProperty("number")
@@ -36,7 +34,6 @@ public class Release {
     public String getReleaseColor() {
         return releaseColor;
     }
-
     public void setReleaseColor(String releaseColor) {
         this.releaseColor = releaseColor;
     }
@@ -44,7 +41,6 @@ public class Release {
     public Long getId() {
         return id;
     }
-
     public void setId(Long Id) {
         this.id = Id;
     }
@@ -52,7 +48,6 @@ public class Release {
     public String getReleaseNumber() {
         return releaseNumber;
     }
-
     public void setReleaseNumber(String releaseNumber) {
         this.releaseNumber = releaseNumber;
     }
@@ -60,15 +55,12 @@ public class Release {
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
-
     public String getReleaseDateString() {
         return releaseDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
-
     public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
-
     public String getDaysTillRelease() {
         Period periodTillRelease = Period.between(LocalDate.now(), releaseDate);
         StringBuilder tillRelease = new StringBuilder();
