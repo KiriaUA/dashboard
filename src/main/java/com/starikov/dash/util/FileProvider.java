@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.starikov.dash.entity.Epic;
 import com.starikov.dash.entity.Release;
+import com.starikov.dash.entity.User;
 import com.starikov.dash.repository.EpicRepository;
 import com.starikov.dash.repository.ReleaseRepository;
+import com.starikov.dash.repository.UserRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,15 +22,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class EpicsFileProvider implements IFileProvider {
+public class FileProvider implements IFileProvider {
 
-    private static final Logger logger = Logger.getLogger(EpicsFileProvider.class);
+    private static final Logger logger = Logger.getLogger(FileProvider.class);
 
     @Autowired
     private EpicRepository epicRepository;
 
     @Autowired
     private ReleaseRepository releaseRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private ObjectMapper jsonMapper;
@@ -44,6 +49,7 @@ public class EpicsFileProvider implements IFileProvider {
 
     @PostConstruct
     private void parseJSONFiles() throws IOException {
+        parseUsersInformation();
         parseEpicFilesFromStorage();
         parseReleaseInformation();
         wireEpicsWithRelease();
@@ -127,6 +133,26 @@ public class EpicsFileProvider implements IFileProvider {
             jsonMapper.writeValue(file, allReleases);
         } catch (IOException e) {
             logger.error("Some problem occurred during release information saving. Check if file 'releases.json' exists");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void parseUsersInformation() {
+        String pathToFile = jsonFolder + "users.json";
+        logger.info("Start Users information parsing");
+        File file = new File(pathToFile);
+        try {
+            JsonNode tree = jsonMapper.readTree(file);
+            for (JsonNode node : tree) {
+                User user = new User();
+                user.setName(node.get("name").asText());
+                user.setLogin(node.get("login").asText());
+                user.setPosition(User.Position.valueOf(node.get("position").asText()));
+                userRepository.save(user);
+            }
+        } catch (IOException e) {
+            logger.error("Problem occurred during users information parsing. Check if file 'users.json' exists");
             e.printStackTrace();
         }
     }

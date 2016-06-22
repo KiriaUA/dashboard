@@ -1,7 +1,8 @@
-package com.starikov.dash.service;
+package com.starikov.dash.service.impl;
 
 import com.starikov.dash.entity.Release;
 import com.starikov.dash.repository.ReleaseRepository;
+import com.starikov.dash.service.IReleaseService;
 import com.starikov.dash.util.IFileProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

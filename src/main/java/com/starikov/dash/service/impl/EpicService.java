@@ -1,7 +1,8 @@
-package com.starikov.dash.service;
+package com.starikov.dash.service.impl;
 
 import com.starikov.dash.entity.Epic;
 import com.starikov.dash.repository.EpicRepository;
+import com.starikov.dash.service.IEpicService;
 import com.starikov.dash.util.IFileProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

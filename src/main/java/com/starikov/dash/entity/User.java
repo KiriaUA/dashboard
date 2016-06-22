@@ -1,11 +1,13 @@
 package com.starikov.dash.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
-public class Developer {
+public class User {
+
+    public enum Position {
+        DEV, QA, BA, DESIGN
+    }
 
     @Id
     @GeneratedValue
@@ -15,7 +17,16 @@ public class Developer {
 
     private String login;
 
-    public Developer() {
+    @Enumerated(EnumType.STRING)
+    private Position position;
+
+    public User() {
+    }
+
+    public User(String name, String login, Position position) {
+        this.name = name;
+        this.login = login;
+        this.position = position;
     }
 
     public String getName() {
@@ -37,5 +48,12 @@ public class Developer {
     }
     public void setId(String ID) {
         this.id = ID;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }

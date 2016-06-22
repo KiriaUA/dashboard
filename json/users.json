@@ -1,0 +1,109 @@
+[
+    {
+        "name": "Kyrylo Starikov",
+        "login": "kyrylos",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Anton Tkachov",
+        "login": "antontk",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Yaroslav Kaspryshyn",
+        "login": "yaroslavk",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Yurii Mrots",
+        "login": "yuriim",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Sergiy Siryy",
+        "login": "sergiysi",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Serhii Bihun",
+        "login": "serhiib",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Yevhenii Synhaievskyi",
+        "login": "yevheniis",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Nataliia Lytvynenko",
+        "login": "Nataliial",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Serhii Senkevych",
+        "login": "serhiise",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Ihor Kozhevnikov",
+        "login": "ihorko",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Olga Sorokina",
+        "login": "olgasor",
+        "position": "DESIGN"
+    },
+
+    {
+        "name": "Bohdan Sribyi",
+        "login": "bohdansr",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Illia Blahodov",
+        "login": "illiab",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Artem Pylypenko",
+        "login": "artemp",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Anton Kovunov",
+        "login": "antonk",
+        "position": "DEV"
+    },
+
+    {
+        "name": "Dmytro Kubov",
+        "login": "dmytrokub",
+        "position": "QA"
+    },
+
+    {
+        "name": "Yuliya Motiyets",
+        "login": "yuliyam",
+        "position": "BA"
+    },
+
+    {
+        "name": "Uliana Shumelda",
+        "login": "ulianas",
+        "position": "QA"
+    }
+]

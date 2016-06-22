@@ -1,8 +1,9 @@
-package com.starikov.dash.service;
+package com.starikov.dash.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.starikov.dash.entity.JiraEpic;
+import com.starikov.dash.service.IJiraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
