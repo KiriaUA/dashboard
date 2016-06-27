@@ -2,8 +2,9 @@ package com.starikov.dash.controller.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.starikov.dash.service.IJiraService;
+import com.starikov.dash.service.IJiraEpicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class JiraController {
 
     @Autowired
-    private IJiraService jiraService;
+    private IJiraEpicService jiraService;
 
     @Autowired
+    @Qualifier("jsonMapper")
     private ObjectMapper objectMapper;
 
     @RequestMapping(path = "epics", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

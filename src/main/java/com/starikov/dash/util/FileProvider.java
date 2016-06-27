@@ -2,14 +2,15 @@ package com.starikov.dash.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.starikov.dash.entity.Epic;
-import com.starikov.dash.entity.Release;
-import com.starikov.dash.entity.User;
+import com.starikov.dash.entity.*;
 import com.starikov.dash.repository.EpicRepository;
 import com.starikov.dash.repository.ReleaseRepository;
 import com.starikov.dash.repository.UserRepository;
+import com.starikov.dash.service.IJiraEpicService;
+import com.starikov.dash.service.IJiraUserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class FileProvider implements IFileProvider {
@@ -36,6 +35,13 @@ public class FileProvider implements IFileProvider {
     private UserRepository userRepository;
 
     @Autowired
+    private IJiraUserService jiraUserService;
+
+    @Autowired
+    private IJiraEpicService jiraEpicService;
+
+    @Autowired
+    @Qualifier("jsonMapper")
     private ObjectMapper jsonMapper;
 
     /**
@@ -48,11 +54,43 @@ public class FileProvider implements IFileProvider {
     String jsonFolder;
 
     @PostConstruct
-    private void parseJSONFiles() throws IOException {
-        parseUsersInformation();
-        parseEpicFilesFromStorage();
-        parseReleaseInformation();
-        wireEpicsWithRelease();
+    private void parseJSONFiles() throws Exception {
+        Thread tUserParse = new Thread(this::parseUsersInformation);
+        Thread tEpicParse = new Thread(this::parseEpicFilesFromStorage);
+        Thread tReleaseParse = new Thread(this::parseReleaseInformation);
+        Thread tWireData = new Thread(() -> {
+            wireEpicsWithRelease();
+            wireEpicsWithUsers();
+            logger.info("\n===================\n" +
+                    "LOADING THREADS WERE FINISHED\n" +
+                    "==================="
+
+            );
+        });
+
+        tUserParse.start();
+        tEpicParse.start();
+        tReleaseParse.start();
+
+        new Thread(() -> {
+            while (tUserParse.isAlive() || tEpicParse.isAlive() || tReleaseParse.isAlive()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            tWireData.start();
+        }).start();
+    }
+
+    private void wireEpicsWithUsers() {
+        Iterable<Epic> epics = epicRepository.findAll();
+        for (Epic epic : epics) {
+            epic.setDeveloper(userRepository.findByName(epic.getDeveloperName()));
+            epicRepository.save(epic);
+        }
     }
 
     private void wireEpicsWithRelease() {
@@ -63,17 +101,21 @@ public class FileProvider implements IFileProvider {
         }
     }
 
-
     @Override
-    public void parseEpicFilesFromStorage() throws IOException {
-        List<Epic> list = new ArrayList<>();
+    public void parseEpicFilesFromStorage() {
         logger.info("Start epics parsing");
         File folder = new File(epicsFolder);
         for (File file : folder.listFiles()) {
-            Epic game = jsonMapper.readValue(file, Epic.class);
-            list.add(game);
-            epicRepository.save(game);
-            logger.info("Successfully parse " + game.getTitle());
+            Epic game = null;
+            try {
+                game = jsonMapper.readValue(file, Epic.class);
+                EpicJiraDetails epicInfo = jiraEpicService.getGeneralEpicInfo(game.getTitle());
+                game.setEpicJiraDetails(epicInfo);
+                epicRepository.save(game);
+                logger.info("Successfully parse " + game.getTitle());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -149,6 +191,7 @@ public class FileProvider implements IFileProvider {
                 user.setName(node.get("name").asText());
                 user.setLogin(node.get("login").asText());
                 user.setPosition(User.Position.valueOf(node.get("position").asText()));
+                user.setUserDetails(new UserJiraDetails(jiraUserService.getUserAvatar(user.getLogin()), jiraUserService.getOpenDefectsForUser(user.getLogin())));
                 userRepository.save(user);
             }
         } catch (IOException e) {

@@ -3,10 +3,7 @@ package com.starikov.dash.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,10 +34,14 @@ public class Epic {
     private String gp;
 
     /**
-     * Game developer
+     * Game developerName
      */
-    @JsonProperty("developer")
-    private String developer;
+    @JsonProperty("developerName")
+    private String developerName;
+
+    @JsonIgnore
+    @OneToOne
+    private User developer;
 
     @JsonIgnore
     @OneToOne
@@ -48,6 +49,10 @@ public class Epic {
 
     @JsonProperty("releaseName")
     private String releaseName;
+
+    @JsonIgnore
+    @Embedded
+    private EpicJiraDetails epicJiraDetails;
 
     public Epic() {
     }
@@ -80,11 +85,18 @@ public class Epic {
         this.gameCode = gameCode;
     }
 
-    public String getDeveloper() {
+    public User getDeveloper() {
         return developer;
     }
-    public void setDeveloper(String developer) {
+    public void setDeveloper(User developer) {
         this.developer = developer;
+    }
+
+    public String getDeveloperName() {
+        return developerName;
+    }
+    public void setDeveloperName(String developerName) {
+        this.developerName = developerName;
     }
 
     public String getGp() {
@@ -99,5 +111,12 @@ public class Epic {
     }
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public EpicJiraDetails getEpicJiraDetails() {
+        return epicJiraDetails;
+    }
+    public void setEpicJiraDetails(EpicJiraDetails epicJiraDetails) {
+        this.epicJiraDetails = epicJiraDetails;
     }
 }

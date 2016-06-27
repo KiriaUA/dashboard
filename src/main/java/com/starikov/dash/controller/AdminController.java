@@ -2,8 +2,10 @@ package com.starikov.dash.controller;
 
 import com.starikov.dash.entity.Epic;
 import com.starikov.dash.entity.Release;
+import com.starikov.dash.entity.User;
 import com.starikov.dash.service.IEpicService;
 import com.starikov.dash.service.IReleaseService;
+import com.starikov.dash.service.IUserService;
 import com.starikov.dash.validator.EpicValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,10 +35,14 @@ public class AdminController {
     @Autowired
     private IReleaseService releaseService;
 
+    @Autowired
+    private IUserService userService;
+
     @RequestMapping(method = RequestMethod.GET)
     public String index(Model model) {
         model.addAttribute("epics", epicService.getEpics());
         model.addAttribute("releases", releaseService.getAllReleases());
+        model.addAttribute("users", userService.getUsersByPosition(User.Position.DEV));
         model.addAttribute("epic", new Epic());
         return "admin/index";
     }

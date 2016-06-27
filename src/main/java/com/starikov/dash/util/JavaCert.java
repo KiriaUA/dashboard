@@ -8,7 +8,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
 public class JavaCert {
-    public static void main(String[] args) throws Exception {
+    public static void test(String[] args) throws Exception {
         String host;
         int port;
         char[] passphrase;

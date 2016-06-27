@@ -38,6 +38,7 @@
                             data-epic_title=${epic.title},
                             data-epic_code=${epic.gameCode},
                             data-epic_release=${epic.releaseName},
+                            data-epic_developer_name=${epic.developerName},
                             data-gp=${epic.gp}"
                     ></button>&nbsp;&nbsp;&nbsp;
                     <button class="glyphicon glyphicon-remove" data-toggle="modal" data-target="#removeFormModal" aria-hidden="true" th:attr="data-epic_id=${epic.id}"></button>
@@ -67,6 +68,14 @@
                             <label for="gameCode">Game code</label>
                             <input type="text" class="form-control" id="gameCode" th:field="*{gameCode}"/>
                             <p th:if="${#fields.hasErrors('gameCode')}" th:errors="*{gameCode}">Title error message</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="developer">Developer</label>
+                            <select class="form-control" id="developer" th:field="*{developerName}">
+                                <option th:each="user : ${users}" th:text="${user.name}" th:value="${user.name}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('developerName')}" th:errors="*{developerName}">Title error message</p>
                         </div>
 
                         <div class="form-group">
@@ -119,8 +128,16 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="up.gp">Game Producer</label>
-                            <select class="form-control" id="updGP" name="up.gp" th:field="*{gp}">
+                            <label for="developerUpd">Developer</label>
+                            <select class="form-control" id="developerUpd" th:field="*{developerName}">
+                                <option th:each="user : ${users}" th:text="${user.name}" th:value="${user.name}"></option>
+                            </select>
+                            <p th:if="${#fields.hasErrors('developerName')}" th:errors="*{developerName}">Title error message</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="updGp">Game Producer</label>
+                            <select class="form-control" id="updGP" name="updGp" th:field="*{gp}">
                                 <option value="--">--</option>
                                 <option value="Andreas Bexelius">Andreas Bexelius</option>
                                 <option value="Geoff Scaplehorn">Geoff Scaplehorn</option>
@@ -181,12 +198,14 @@
             var code = $(e.relatedTarget).data('epic_code');
             var gp = $(e.relatedTarget).data('gp');
             var release = $(e.relatedTarget).data('epic_release');
+            var devName = $(e.relatedTarget).data('epic_developer_name');
 
             $(e.currentTarget).find('input[name="id"]').val(epicId);
             $(e.currentTarget).find('input[name="title"]').val(epicTitle);
             $(e.currentTarget).find('input[name="gameCode"]').val(code);
             $(e.currentTarget).find("#updGP option[value='"+ gp +"']").prop("selected", "selected");
             $(e.currentTarget).find("#releaseUp option[value='"+ release +"']").prop("selected", "selected");
+            $(e.currentTarget).find("#developerUpd option[value='"+ devName +"']").prop("selected", "selected");
         });
     </script>
 </body>

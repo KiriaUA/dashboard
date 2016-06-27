@@ -1,8 +1,11 @@
 package com.starikov.dash.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
+@Table(name = "USER_DETAILS")
 public class User {
 
     public enum Position {
@@ -11,7 +14,7 @@ public class User {
 
     @Id
     @GeneratedValue
-    private String id;
+    private Long id;
 
     private String name;
 
@@ -19,6 +22,10 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private Position position;
+
+    @JsonIgnore
+    @Embedded
+    private UserJiraDetails userDetails;
 
     public User() {
     }
@@ -43,10 +50,10 @@ public class User {
         this.login = login;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(String ID) {
+    public void setId(Long ID) {
         this.id = ID;
     }
 
@@ -55,5 +62,13 @@ public class User {
     }
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public UserJiraDetails getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(UserJiraDetails userDetails) {
+        this.userDetails = userDetails;
     }
 }

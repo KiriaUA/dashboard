@@ -26,7 +26,7 @@
             <tr>
                 <th>#</th>
                 <th>Game Title</th>
-                <th>Open<br/>Defects</th>
+                <th>Open<br/>Issues</th>
                 <th>Game Code</th>
                 <th>Days<br/>Till Release</th>
                 <th>Release Date</th>
@@ -37,12 +37,18 @@
         <tbody>
             <tr th:each="epic,iterStat : ${epics}" th:class="${iterStat.odd}? 'odd'">
                 <td th:text="${iterStat.count}">1</td>
-                <td th:text="${epic.title}">Hawaiian Treasure</td>
-                <td class="openDefect">0</td>
+                <td>
+                    <img th:attr="src=${epic.epicJiraDetails.priorityIconUrl}"/>
+                    <span th:text="${epic.title}">Hawaiian Treasure</span>
+                </td>
+                <td class="openDefect" th:text="${epic.epicJiraDetails.openIssues}">0</td>
                 <td th:text="${epic.gameCode}">ashhwt</td>
                 <td class="daysLeft" th:text="${epic.release.daysTillRelease}">10</td>
                 <td th:text="${epic.release.releaseNumber}">02/06/2016</td>
-                <td th:text="${epic.developer}">Developer Name</td>
+                <td>
+                    <img th:attr="src=${epic.developer.userDetails.avatarPath}"/>
+                    <span th:text="${epic.developer.name}">Developer Name</span>
+                </td>
                 <td th:text="${epic.gp}">Geoff Scaplehorn</td>
             </tr>
         </tbody>
